@@ -3,13 +3,20 @@
     <el-header>
       <b>Hearthstone Helper</b>
     </el-header>
-    <el-main>Main</el-main>
+    <el-main>
+      <Team/>
+    </el-main>
   </el-container>
 </template>
 
 <script>
+  import Team from './Team';
+
   export default {
-    name: "Checkerboard"
+    name: "Checkerboard",
+    components: {
+      Team
+    }
   }
 </script>
 
@@ -19,11 +26,5 @@
     line-height: 60px;
     font-size: 1.5em;
     border: 1px solid #eee
-  }
-
-  .el-main {
-    color: #333;
-    text-align: center;
-    line-height: 160px;
   }
 </style>
