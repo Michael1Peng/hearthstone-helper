@@ -1,17 +1,25 @@
 <template>
-  <el-row class="row" type="flex" justify="center">
+  <el-row class="row" type="flex" justify="center" :gutter="20">
+    <el-col v-for="o in 7" :key="o" :span="4">
+      <identity :role="role"></identity>
+    </el-col>
   </el-row>
 </template>
 
 <script>
+  import Identity from './Identity';
+
   export default {
-    name: "Team"
+    name: "Team",
+    components: {Identity},
+    props: {
+      role: String
+    }
   }
 </script>
 
 <style>
   .row {
-    height: 200px;
     border: #1fab89 1px solid;
   }
 </style>

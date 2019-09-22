@@ -4,7 +4,8 @@
       <b>Hearthstone Helper</b>
     </el-header>
     <el-main>
-      <Team/>
+      <Team role="enemy"/>
+      <Team role="teammate" style="margin-top: 20px"/>
     </el-main>
   </el-container>
 </template>
