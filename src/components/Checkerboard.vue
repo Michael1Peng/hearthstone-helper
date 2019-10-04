@@ -4,8 +4,8 @@
       <b>Hearthstone Helper</b>
     </el-header>
     <el-main>
-      <Team role="enemy"/>
-      <Team role="teammate" style="margin-top: 20px"/>
+      <Team :role="enemy"/>
+      <Team :role="teammate" style="margin-top: 20px"/>
     </el-main>
   </el-container>
 </template>
@@ -17,6 +17,15 @@
     name: "Checkerboard",
     components: {
       Team
+    },
+    data() {
+      const TEAMMATE= 'teammate';
+      const ENEMY= 'enemy';
+
+      return {
+        enemy: ENEMY,
+        teammate: TEAMMATE
+      }
     }
   }
 </script>

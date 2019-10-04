@@ -11,6 +11,9 @@
     name: 'app',
     components: {
       Checkerboard
+    },
+    mounted() {
+      this.$store.dispatch('init')
     }
   }
 </script>

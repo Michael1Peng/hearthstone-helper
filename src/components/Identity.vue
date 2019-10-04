@@ -15,6 +15,8 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+
   export default {
     name: "Identity",
     data() {
@@ -27,6 +29,8 @@
       title: String,
       id: Number,
       role: String
+    },
+    mounted() {
     },
     computed: {
       bannerStyle: function () {
@@ -44,7 +48,12 @@
       },
       buttonType: function () {
         return this.role === 'teammate' ? 'primary' : 'danger'
-      }
+      },
+      ...mapState({
+        entity(state) {
+          return state.currentFlow
+        }
+      })
     }
   }
 </script>

@@ -17,11 +17,12 @@ export default new Vuex.Store({
       for (let i = 0; i < 7; i++) {
         state.flows.push(new Flow())
       }
-      state.currentFlow = state.flows[0];
+      state.currentFlow = {...state.currentFlow, ...state.flows[0]};
     }
   },
   actions: {
     init: function (context) {
+      debugger;
       context.commit('init')
     }
   }

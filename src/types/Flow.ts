@@ -17,4 +17,12 @@ export default class Flow {
       this.enemies.push(enemy);
     }
   }
+
+  // getEntity(team: string, id: number): Entity {
+  //   if (team === TEAMMATE) {
+  //     return this.teammates[id]
+  //   } else {
+  //     return this.enemies[id]
+  //   }
+  // }
 }

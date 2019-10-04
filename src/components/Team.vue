@@ -6,7 +6,7 @@
   </el-row>
 </template>
 
-<script>
+<script >
   import Identity from './Identity';
 
   export default {
@@ -14,6 +14,8 @@
     components: {Identity},
     props: {
       role: String
+    },
+    mounted() {
     }
   }
 </script>
