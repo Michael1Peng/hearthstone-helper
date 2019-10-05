@@ -1,7 +1,7 @@
 <template>
   <el-row class="row" type="flex" justify="center" :gutter="20">
     <el-col v-for="o in 7" :key="o" :span="4">
-      <identity :role="role"></identity>
+      <identity :role="role" :id="o"></identity>
     </el-col>
   </el-row>
 </template>

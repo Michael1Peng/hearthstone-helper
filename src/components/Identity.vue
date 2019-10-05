@@ -2,9 +2,9 @@
   <el-card class="box-card" :body-style="{ padding: '0px' }">
     <div :style="bannerStyle"></div>
     <div class="contain">
-      <el-input class="input" size="medium" v-model="attack">
+      <el-input class="input" size="medium" v-model="entity.attack">
       </el-input>
-      <el-input class="input" size="medium" v-model="defense">
+      <el-input class="input" size="medium" v-model="entity.life">
       </el-input>
       <el-row>
         <el-button icon="el-icon-refresh-right" plain circle></el-button>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     name: "Identity",
@@ -49,32 +49,19 @@
       buttonType: function () {
         return this.role === 'teammate' ? 'primary' : 'danger'
       },
-      ...mapState({
-        entity(state) {
-          return state.currentFlow
-        }
-      })
+      entity: function () {
+        return this.getEntity(this.role, this.id)
+      },
+      ...mapGetters([
+        'getEntity'
+      ])
     }
   }
 </script>
 
 <style>
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
   .box-card {
     width: 100%;
-  }
-
-  .banner {
-    height: 37px;
-    background-color: #ff8080;
-    border-bottom: 1px solid #EBEEF5;
   }
 
   .contain {
