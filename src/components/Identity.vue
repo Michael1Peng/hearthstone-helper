@@ -2,9 +2,19 @@
   <el-card class="box-card" :body-style="{ padding: '0px' }">
     <div :style="bannerStyle"></div>
     <div class="contain">
-      <el-input class="input" size="medium" v-model="entity.attack">
+      <el-input
+          class="input"
+          size="medium"
+          ref="attack"
+          v-model="entity.attack"
+          v-on:input="changeFocus('attack')">
       </el-input>
-      <el-input class="input" size="medium" v-model="entity.life">
+      <el-input
+          class="input"
+          size="medium"
+          ref="defense"
+          v-model="entity.life"
+          v-on:input="changeFocus('defense')">
       </el-input>
       <el-row>
         <el-button icon="el-icon-refresh-right" plain circle></el-button>
@@ -16,6 +26,11 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+
+  /**
+   * @emits changeDefense This event means we change this identity's life, then we should
+   *                      move focus to next identity's attack.
+   */
 
   export default {
     name: "Identity",
@@ -31,6 +46,17 @@
       role: String
     },
     mounted() {
+      this.$store.watch(
+          state => state.nextFocus,
+          (value, oldValue) => {
+            if (value.id === Number(this.id) && value.team === this.role) {
+              this.$refs[value.position].focus();
+            }
+          },
+          {
+            deep: true
+          }
+      );
     },
     computed: {
       bannerStyle: function () {
@@ -52,9 +78,17 @@
       entity: function () {
         return this.getEntity(this.role, this.id)
       },
+      ...mapState([
+        'nextFocus'
+      ]),
       ...mapGetters([
         'getEntity'
       ])
+    },
+    methods: {
+      changeFocus(position) {
+        this.$store.dispatch('changeFocus', {id: this.id, position, team: this.role})
+      }
     }
   }
 </script>
