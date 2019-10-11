@@ -17,15 +17,15 @@
           v-on:input="changeFocus('defense')">
       </el-input>
       <el-row>
-        <el-button icon="el-icon-refresh-right" plain circle></el-button>
-        <el-button :type="buttonType" icon="el-icon-check" plain circle></el-button>
+        <el-button icon="el-icon-refresh-right" plain circle @click="entity.attack=entity.life = 0"></el-button>
+        <el-button :type="buttonType" icon="el-icon-check" plain circle @click="commitSelection(entity)"></el-button>
       </el-row>
     </div>
   </el-card>
 </template>
 
 <script>
-  import {mapState, mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
 
   /**
    * @emits changeDefense This event means we change this identity's life, then we should
@@ -88,7 +88,10 @@
     methods: {
       changeFocus(position) {
         this.$store.dispatch('changeFocus', {id: this.id, position, team: this.role})
-      }
+      },
+      ...mapActions([
+        'commitSelection'
+      ])
     }
   }
 </script>

@@ -12,8 +12,8 @@ const DEFENSE: string = 'defense';
 
 export default new Vuex.Store({
   state: {
-    teammateSelection: {} as Entity,
-    enemySelection: {} as Entity,
+    teammateSelection: null as Entity | null,
+    enemySelection: null as Entity | null,
     currentFlow: null as null | Flow,
     flows: [] as Flow[],
     // 通过订阅这个对象，watch 监控这个对象，来判断focus 转移到哪里
@@ -30,7 +30,24 @@ export default new Vuex.Store({
       state.nextFocus.id = nF.id;
       state.nextFocus.position = nF.position;
       state.nextFocus.team = nF.team;
+    },
+    setTeammate(state, entity: Entity) {
+      state.teammateSelection = entity;
+    },
+    setEnemy(state, entity: Entity) {
+      state.enemySelection = entity;
+    },
+    battle(state) {
+      if (state.teammateSelection !== null && state.enemySelection !== null) {
+        state.teammateSelection.life -= state.enemySelection.attack;
+        state.teammateSelection.life = state.teammateSelection.life < 0 ? 0 : state.teammateSelection.life;
+        state.enemySelection.life -= state.teammateSelection.attack;
+        state.enemySelection.life = state.enemySelection.life < 0 ? 0 : state.enemySelection.life;
+        state.teammateSelection = null;
+        state.enemySelection = null;
+      }
     }
+
   },
   actions: {
     init: function (context) {
@@ -41,6 +58,19 @@ export default new Vuex.Store({
         injectee.commit('changeFocus', {id: payload.id, position: DEFENSE, team: payload.team})
       } else {
         injectee.commit('changeFocus', {id: (payload.id + 1) % 7, position: ATTACK, team: payload.team})
+      }
+    },
+    commitSelection: (injectee, payload: Entity) => {
+      if (payload.team === TEAMMATE) {
+        injectee.commit('setTeammate', payload);
+        if (injectee.state.enemySelection !== null) {
+          injectee.commit('battle')
+        }
+      } else {
+        injectee.commit('setEnemy', payload);
+        if (injectee.state.teammateSelection !== null) {
+          injectee.commit('battle')
+        }
       }
     }
   },
