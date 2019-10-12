@@ -6,21 +6,24 @@
     <el-main>
       <Team :role="enemy"/>
       <Team :role="teammate" style="margin-top: 20px"/>
+      <operation-buttons></operation-buttons>
     </el-main>
   </el-container>
 </template>
 
 <script>
   import Team from './Team';
+  import OperationButtons from "@/components/OperationButtons";
 
   export default {
     name: "Checkerboard",
     components: {
-      Team
+      Team,
+      OperationButtons
     },
     data() {
-      const TEAMMATE= 'teammate';
-      const ENEMY= 'enemy';
+      const TEAMMATE = 'teammate';
+      const ENEMY = 'enemy';
 
       return {
         enemy: ENEMY,

@@ -24,7 +24,7 @@ export default new Vuex.Store({
       for (let i = 0; i < 7; i++) {
         state.flows.push(new Flow())
       }
-      state.currentFlow = {...state.flows[0]};
+      state.currentFlow = state.flows[0];
     },
     changeFocus(state, nF: { id: number, position: string, team: string }) {
       state.nextFocus.id = nF.id;
@@ -46,6 +46,14 @@ export default new Vuex.Store({
         state.teammateSelection = null;
         state.enemySelection = null;
       }
+    },
+    saveFlow(state, id: number) {
+      if (state.currentFlow !== null) {
+        state.flows[id] = JSON.parse(JSON.stringify(state.currentFlow))
+      }
+    },
+    changeFlow(state, id: number) {
+      state.currentFlow = state.flows[id]
     }
 
   },
