@@ -46,6 +46,7 @@
       role: String
     },
     mounted() {
+      //
       this.$store.watch(
           state => state.nextFocus,
           (value, oldValue) => {

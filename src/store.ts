@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Entity from "@/types/entity";
 import Flow from "@/types/Flow";
+import {Focus} from "@/types/Focus";
 
 Vue.use(Vuex);
 
@@ -17,7 +18,7 @@ export default new Vuex.Store({
     currentFlow: null as null | Flow,
     flows: [] as Flow[],
     // 通过订阅这个对象，watch 监控这个对象，来判断focus 转移到哪里
-    nextFocus: {id: 0, position: ATTACK} as { id: number, position: string, team: string }
+    nextFocus: {id: 0, position: ATTACK} as Focus
   },
   mutations: {
     init(state) {
@@ -26,17 +27,20 @@ export default new Vuex.Store({
       }
       state.currentFlow = state.flows[0];
     },
-    changeFocus(state, nF: { id: number, position: string, team: string }) {
+    // 选择
+    // Decide which place to be focus directly
+    changeFocus(state, nF: Focus) {
       state.nextFocus.id = nF.id;
       state.nextFocus.position = nF.position;
       state.nextFocus.team = nF.team;
     },
-    setTeammate(state, entity: Entity) {
+    selectTeammate(state, entity: Entity) {
       state.teammateSelection = entity;
     },
-    setEnemy(state, entity: Entity) {
+    selectEnemy(state, entity: Entity) {
       state.enemySelection = entity;
     },
+    // 结算
     battle(state) {
       if (state.teammateSelection !== null && state.enemySelection !== null) {
         state.teammateSelection.life -= state.enemySelection.attack;
@@ -55,13 +59,13 @@ export default new Vuex.Store({
     changeFlow(state, id: number) {
       state.currentFlow = state.flows[id]
     }
-
   },
   actions: {
     init: function (context) {
       context.commit('init')
     },
-    changeFocus: (injectee, payload: { id: number, position: string, team: string }) => {
+    // Calculate the next place to be focused
+    changeFocus: (injectee, payload: Focus) => {
       if (payload.position === ATTACK) {
         injectee.commit('changeFocus', {id: payload.id, position: DEFENSE, team: payload.team})
       } else {
@@ -70,12 +74,12 @@ export default new Vuex.Store({
     },
     commitSelection: (injectee, payload: Entity) => {
       if (payload.team === TEAMMATE) {
-        injectee.commit('setTeammate', payload);
+        injectee.commit('selectTeammate', payload);
         if (injectee.state.enemySelection !== null) {
           injectee.commit('battle')
         }
       } else {
-        injectee.commit('setEnemy', payload);
+        injectee.commit('selectEnemy', payload);
         if (injectee.state.teammateSelection !== null) {
           injectee.commit('battle')
         }

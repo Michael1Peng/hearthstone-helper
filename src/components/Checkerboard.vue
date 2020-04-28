@@ -11,26 +11,27 @@
   </el-container>
 </template>
 
-<script>
-  import Team from './Team';
-  import OperationButtons from "@/components/OperationButtons";
+<script lang="ts">
+  import Team from './Team.vue';
+  import OperationButtons from "@/components/OperationButtons.vue";
+  import Vue from 'vue'
 
-  export default {
+  export default Vue.extend({
     name: "Checkerboard",
     components: {
       Team,
       OperationButtons
     },
     data() {
-      const TEAMMATE = 'teammate';
-      const ENEMY = 'enemy';
+      const TEAMMATE: string = 'teammate';
+      const ENEMY: string = 'enemy';
 
       return {
-        enemy: ENEMY,
-        teammate: TEAMMATE
+        enemy: ENEMY as string,
+        teammate: TEAMMATE as string
       }
     }
-  }
+  })
 </script>
 
 <style>
