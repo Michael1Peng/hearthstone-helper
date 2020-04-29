@@ -72,6 +72,7 @@ export default new Vuex.Store({
         injectee.commit('changeFocus', {id: (payload.id + 1) % 7, position: ATTACK, team: payload.team})
       }
     },
+    // If both teammate and enemy have been selected, commit the battle
     commitSelection: (injectee, payload: Entity) => {
       if (payload.team === TEAMMATE) {
         injectee.commit('selectTeammate', payload);

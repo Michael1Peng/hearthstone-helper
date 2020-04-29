@@ -1,6 +1,6 @@
 <template>
   <el-card class="box-card" :body-style="{ padding: '0px' }">
-    <div :style="bannerStyle"></div>
+    <div :style="bannerStyle" class="banner-text">{{keyChar}}</div>
     <div class="contain">
       <el-input
           class="input"
@@ -43,7 +43,8 @@
     props: {
       title: String,
       id: Number,
-      role: String
+      role: String,
+      keyChar: String
     },
     mounted() {
       //
@@ -65,12 +66,12 @@
             {
               height: '37px',
               'background-color': '#c6f1d6',
-              'border-bottom': '1px solid #EBEEF5'
+              'border-bottom': '1px solid #EBEEF5',
             } :
             {
               height: '37px',
               'background-color': '#ff8080',
-              'border-bottom': '1px solid #EBEEF5'
+              'border-bottom': '1px solid #EBEEF5',
             }
       },
       buttonType: function () {
@@ -108,5 +109,12 @@
 
   .input input {
     text-align: right;
+  }
+
+  .banner-text {
+    text-align: center;
+    font-size: 1.2em;
+    color: #606266;
+    line-height: 37px;
   }
 </style>

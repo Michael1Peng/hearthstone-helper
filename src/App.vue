@@ -6,6 +6,7 @@
 
 <script>
   import Checkerboard from './components/Checkerboard'
+  import {init as keyboardOperationsInit} from "@/utils/KeyboardOperations";
 
   export default {
     name: 'app',
@@ -14,6 +15,7 @@
     },
     mounted() {
       this.$store.dispatch('init')
+      keyboardOperationsInit()
     }
   }
 </script>

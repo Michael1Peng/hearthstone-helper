@@ -1,13 +1,14 @@
 <template>
   <el-row class="row" type="flex" justify="center" :gutter="20">
     <el-col v-for="o in 7" :key="o" :span="4">
-      <identity :role="role" :id="o-1"></identity>
+      <identity :role="role" :key-char="keys[o]" :id="o-1"></identity>
     </el-col>
   </el-row>
 </template>
 
 <script>
   import Identity from './Identity';
+  import {TeammatesKeys, EnemiesKeys} from "@/utils/KeyboardOperations";
 
   export default {
     name: "Team",
@@ -15,7 +16,10 @@
     props: {
       role: String
     },
-    mounted() {
+    computed: {
+      keys() {
+        return this.role === 'teammate' ? TeammatesKeys : EnemiesKeys
+      }
     }
   }
 </script>
