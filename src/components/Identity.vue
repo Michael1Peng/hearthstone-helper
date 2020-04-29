@@ -1,5 +1,5 @@
 <template>
-  <el-card class="box-card" :body-style="{ padding: '0px' }">
+  <el-card class="box-card" :body-style="{ padding: '0px' }" :shadow="isFocused?'always': 'hover'">
     <div :style="bannerStyle" class="banner-text">{{keyChar}}</div>
     <div class="contain">
       <el-input
@@ -16,9 +16,9 @@
           v-model="entity.life"
           v-on:input="changeFocus('defense')">
       </el-input>
-      <el-row>
-        <el-button icon="el-icon-refresh-right" plain circle @click="entity.attack=entity.life = 0"></el-button>
-        <el-button :type="buttonType" icon="el-icon-check" plain circle @click="commitSelection(entity)"></el-button>
+      <el-row type="flex" justify="center">
+        <el-button icon="el-icon-refresh-right" plain circle @click="entity.attack=entity.life = 0" size="small"></el-button>
+        <el-button :type="buttonType" icon="el-icon-check" plain circle @click="commitSelection(entity)" size="small"></el-button>
       </el-row>
     </div>
   </el-card>
@@ -47,32 +47,31 @@
       keyChar: String
     },
     mounted() {
-      //
       this.$store.watch(
-          state => state.nextFocus,
-          (value, oldValue) => {
-            if (value.id === Number(this.id) && value.team === this.role) {
-              this.$refs[value.position].focus();
-            }
-          },
-          {
-            deep: true
+        state => state.nextFocus,
+        (value, oldValue) => {
+          if (value.id === Number(this.id) && value.team === this.role) {
+            this.$refs[value.position].focus();
           }
+        },
+        {
+          deep: true
+        }
       );
     },
     computed: {
       bannerStyle: function () {
         return this.role === 'teammate' ?
-            {
-              height: '37px',
-              'background-color': '#c6f1d6',
-              'border-bottom': '1px solid #EBEEF5',
-            } :
-            {
-              height: '37px',
-              'background-color': '#ff8080',
-              'border-bottom': '1px solid #EBEEF5',
-            }
+          {
+            height: '37px',
+            'background-color': '#c6f1d6',
+            'border-bottom': '1px solid #EBEEF5',
+          } :
+          {
+            height: '37px',
+            'background-color': '#ff8080',
+            'border-bottom': '1px solid #EBEEF5',
+          }
       },
       buttonType: function () {
         return this.role === 'teammate' ? 'primary' : 'danger'
@@ -80,11 +79,15 @@
       entity: function () {
         return this.getEntity(this.role, this.id)
       },
+      isFocused() {
+        return this.entity === this.getSelections[0] || this.entity === this.getSelections[1]
+      },
       ...mapState([
         'nextFocus'
       ]),
       ...mapGetters([
-        'getEntity'
+        'getEntity',
+        'getSelections'
       ])
     },
     methods: {

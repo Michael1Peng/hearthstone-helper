@@ -97,6 +97,7 @@ export default new Vuex.Store({
       } else {
         return state.currentFlow.enemies[id]
       }
-    }
+    },
+    getSelections: state => [state.teammateSelection, state.enemySelection]
   }
 })
